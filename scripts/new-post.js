@@ -42,15 +42,18 @@ if (!fs.existsSync(dirPath)) {
 	fs.mkdirSync(dirPath, { recursive: true });
 }
 
+//修改为常用添加文章的格式
 const content = `---
 title: ${args[0]}
+description: 这是一个默认文章
+
 published: ${getDate()}
-description: ''
-image: ''
+date: ${getDate()}
 tags: []
 category: ''
-draft: false 
-lang: ''
+draft: true
+pinned: false
+image: '../img/defalut-cover.png'
 ---
 `;
 

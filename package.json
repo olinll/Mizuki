@@ -21,7 +21,9 @@
 		"lint": "eslint ./src --fix",
 		"preinstall": "npx only-allow pnpm",
 		"compress-fonts": "node scripts/compress-fonts.js",
-		"test-font-compression": "node scripts/test-font-compression.js"
+		"test-font-compression": "node scripts/test-font-compression.js",
+		"clean": "node scripts/clean.js",
+		"rebuild": "pnpm run clean && pnpm run build"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.6",
@@ -85,6 +87,7 @@
 		"@types/mdast": "^4.0.4",
 		"@types/qrcode": "^1.5.6",
 		"@types/sanitize-html": "^2.16.0",
+		"baseline-browser-mapping": "^2.9.16",
 		"fontmin": "^1.1.1",
 		"postcss-import": "^16.1.1",
 		"postcss-nesting": "^13.0.2",
