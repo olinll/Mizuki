@@ -73,3 +73,9 @@ commit：[70f2f49](https://github.com/olinll/mizuki/commit/70f2f49af6051c552c502
 commit：[a0b5417](https://github.com/olinll/mizuki/commit/a0b541723a311f56dadb7ee6c0bcb233b31fdae3)
 
 fix(i18n): 修正中文翻译"关于我们"为"关于"refactor(config): 恢复tailwind断点默认值并调整侧边栏布局断点 调整移动端、平板端和桌面端的断点值为1024px，保持响应式设计一致性 feat(analytics): 启用Umami统计功能
+
+# 修改ci Name
+
+时间：2026-01-21
+
+commit：[b21dc9e](https://github.com/olinll/mizuki/commit/b21dc9e2e9cbdcf6c9a6c3256e6fe11e5ad408ba)
