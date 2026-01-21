@@ -3,12 +3,12 @@ title: Mizuki 入门指南
 published: 2026-01-20
 pinned: false
 description: 对于Mizuki的使用做一些记录，方便自己翻阅
-
-tags: [Markdown]
-category: '碎碎念'
+tags:
+  - Markdown
+category: 碎碎念
 draft: false
 date: 2026-01-20
-image: "https://pic1.acofork.com/ri/h/556.webp"
+image: ./img/defalut-cover.png
 ---
 
 Mizuki官方文档：[Mizuki Next Theme Doc](https://docs.mizuki.mysqil.com/)
@@ -43,13 +43,13 @@ Mizuki官方文档：[Mizuki Next Theme Doc](https://docs.mizuki.mysqil.com/)
 
 ### 支持类型及示例
 
-| 类型         | 语法标识    | 效果示例 |
-| ------------ | ----------- | -------- |
-| 说明         | `note`      | ::       |
-| 技巧         | `tip`       | ::       |
-| 重要         | `important` | ::       |
-| 警告         | `warning`   | ::       |
-| 注意（谨慎） | `caution`   | ::       |
+| 类型     | 语法标识        | 效果示例 |
+| ------ | ----------- | ---- |
+| 说明     | `note`      | ::   |
+| 技巧     | `tip`       | ::   |
+| 重要     | `important` | ::   |
+| 警告     | `warning`   | ::   |
+| 注意（谨慎） | `caution`   | ::   |
 
 ### 基础语法
 

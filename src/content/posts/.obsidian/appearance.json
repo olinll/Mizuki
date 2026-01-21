@@ -1,0 +1,14 @@
+{
+  "accentColor": "#5c7bf5",
+  "baseFontSizeAction": true,
+  "baseFontSize": 17,
+  "cssTheme": "Cupertino",
+  "interfaceFontFamily": "霞鹜文楷",
+  "enabledCssSnippets": [
+    "line-space"
+  ],
+  "nativeMenus": false,
+  "textFontFamily": "霞鹜文楷",
+  "monospaceFontFamily": "JetBrains Mono",
+  "theme": "system"
+}

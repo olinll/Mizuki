@@ -1,0 +1,48 @@
+/* ======== 段间距修改 ======== */
+
+/* 应用于所有正文中的段落，排除代码块、列表、标题 */
+.cm-content>.cm-line:not(   
+    .HyperMD-codeblock,
+    .HyperMD-list-line,
+    .HyperMD-header) {
+        /* 段前、后间距（内边距）。二者最好相等，否则会导致块引用左边的条和文字对不齐 */
+        padding-top: 0.25em; 
+        padding-bottom: 0.25em;
+}
+
+/* 阅读模式下单换行符进行换行时的段间距，会影响使用<br>手动进行多行间隔。详见 https://www.zhihu.com/question/431396342/answer/2799744134 */
+/* 在块引用中也生效 */
+.markdown-preview-section>div>p>br,
+.markdown-preview-section>div.el-blockquote>blockquote>p>br {
+    content: "";
+    display: block;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+/* 块引用上下内边距保持渲染前后一致（建议块引用有单独背景色时再开启）
+.markdown-rendered blockquote {
+    padding-top: 0.25em; 
+    padding-bottom: 0.25em;
+}
+*/
+
+/* 缩减渲染后段落与列表、表格之间的间隔，同时避免直接修改'--p--spacing'变量导致其他元素受影响 */
+:is(.markdown-preview-view, .markdown-rendered) p {
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+}
+.markdown-rendered ul, .markdown-rendered ol {
+    margin-block-start: 0;
+}
+.markdown-rendered table {
+    margin-block-start: 0;
+}
+/* 稍微增加编辑模式标题的下边距 */
+.cm-s-obsidian .cm-line.HyperMD-header {
+    margin-bottom: 0.25em !important;
+}
+/* 稍微增加编辑模式图片的上边距 */
+.markdown-source-view.mod-cm6 .internal-embed {
+    margin-top: 4px !important;
+}
+

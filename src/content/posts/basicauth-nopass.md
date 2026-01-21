@@ -3,12 +3,12 @@ title: Basic Auth类型的弹框实现免密码访问
 published: 2026-01-03
 pinned: false
 description: 使用url拼接的形式让你的Basic Auth类验证不再输入密码
-
-tags: []
-category: '教程'
+tags:
+  - Auth
+category: 教程
 draft: false
 date: 2026-01-03
-image: "../img/basicauth-nopass-cover.png"
+image: ./img/basicauth-nopass-cover.png
 ---
 
 # 前言
@@ -17,7 +17,7 @@ image: "../img/basicauth-nopass-cover.png"
 
 下面的鉴权方式就是：`Basic Auth`
 
-![](../img/basicauth-nopass-cover.png)
+![](./img/basicauth-nopass-cover.png)
 
 # 什么是Basic Auth？
 
@@ -29,7 +29,7 @@ Basic Auth，也称为 HTTP 基本认证（HTTP Basic Authentication），是一
 
 打开F12 查看请求的接口响应头信息，看到Www-Authenticate的值包含Basic，并且状态码为401
 
-![](../img/basicauth-nopass-1.png)
+![](./img/basicauth-nopass-1.png)
 
 # 解决问题
 

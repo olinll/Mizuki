@@ -53,7 +53,7 @@ tags: []
 category: ''
 draft: true
 pinned: false
-image: '../img/defalut-cover.png'
+image: './img/defalut-cover.png'
 ---
 `;
 

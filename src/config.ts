@@ -83,7 +83,7 @@ export const siteConfig: SiteConfig = {
 		// 注意：如果侧边栏配置启用了"both"双侧边栏，则无法使用文章列表"grid"网格（双列）布局
 		defaultMode: "list",
 		// 是否允许用户切换布局
-		allowSwitch: true,
+		allowSwitch: false,
 	},
 
 	// 标签样式配置
@@ -215,7 +215,7 @@ export const siteConfig: SiteConfig = {
 			enableCompress: true, // 启用字体子集优化，减少字体文件大小
 		},
 	},
-	showLastModified: true, // 控制“上次编辑”卡片显示的开关
+	showLastModified: false, // 控制“上次编辑”卡片显示的开关
 };
 export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 	src: {
@@ -515,7 +515,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 是否启用该组件
 			enable: true,
 			// 组件显示顺序
-			order: 3,
+			order: 4,
 			// 组件位置："sticky" 表示粘性定位，可滚动
 			position: "sticky",
 			// 所在侧边栏
@@ -557,7 +557,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 是否启用该组件
 			enable: true,
 			// 组件显示顺序
-			order: 5,
+			order: 3,
 			// 组件位置
 			position: "top",
 			// 所在侧边栏
@@ -573,7 +573,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 是否启用该组件
 			enable: true,
 			// 组件显示顺序
-			order: 6,
+			order: 2,
 			// 组件位置
 			position: "top",
 			// 所在侧边栏

@@ -1,14 +1,14 @@
 ---
 title: Mizuki 魔改日志
 description: 记录Mizuki魔改的日志，方便版本升级时翻阅
-
-published: 1999-01-01
+published: 1999-01-02
 date: 2026-01-21
-tags: []
-category: ''
+tags:
+  - 何意味
+category: 碎碎念
 draft: false
 pinned: false
-image: ''
+image: ./img/defalut-cover.png
 ---
 
 本篇文章长期更新，且实时记录本站所有魔改框架记录。不包含文章页面的更新

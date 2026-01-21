@@ -8,7 +8,7 @@ tags: [Docker]
 category: '教程'
 draft: false
 date: 2025-12-28
-image: "../img/uptime-kuma-install-cover.png"
+image: "./img/uptime-kuma-install-cover.png"
 ---
 
 # 前言

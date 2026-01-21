@@ -8,7 +8,7 @@ tags: [Nginx]
 category: '教程'
 draft: false
 date: 2026-01-03
-image: "../img/nginx-subfilter-html-cover.png"
+image: "./img/nginx-subfilter-html-cover.png"
 ---
 
 

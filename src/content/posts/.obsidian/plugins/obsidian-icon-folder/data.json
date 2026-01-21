@@ -1,0 +1,47 @@
+{
+  "settings": {
+    "migrated": 6,
+    "iconPacksPath": ".obsidian/icons",
+    "fontSize": 16,
+    "emojiStyle": "native",
+    "iconColor": null,
+    "recentlyUsedIcons": [
+      "SiDocker",
+      "SiProxmox",
+      "CoFiles",
+      "TiTemplate",
+      "FasStreetView"
+    ],
+    "recentlyUsedIconsSize": 5,
+    "rules": [],
+    "extraMargin": {
+      "top": 0,
+      "right": 4,
+      "bottom": 0,
+      "left": 0
+    },
+    "iconInTabsEnabled": false,
+    "iconInTitleEnabled": false,
+    "iconInTitlePosition": "above",
+    "iconInFrontmatterEnabled": false,
+    "iconInFrontmatterFieldName": "icon",
+    "iconColorInFrontmatterFieldName": "iconColor",
+    "iconsBackgroundCheckEnabled": false,
+    "iconsInNotesEnabled": true,
+    "iconsInLinksEnabled": true,
+    "iconIdentifier": ":",
+    "lucideIconPackType": "native",
+    "debugMode": false,
+    "useInternalPlugins": false
+  },
+  "_Template": "TiTemplate",
+  "share-files": "CoFiles",
+  "4 HomeLab/1 ProxmoxVE": "SiProxmox",
+  "1.软件开发": "LiFolderCode",
+  "2.网站建设": "CoCloud",
+  "3.Linux": "SiLinux",
+  "4.HomeLab": "TiHomeLink",
+  "8.碎碎念": "TiTooltip",
+  "9.待整理": "FasStreetView",
+  "5.Docker": "SiDocker"
+}
