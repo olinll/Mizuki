@@ -62,7 +62,7 @@ export const siteConfig: SiteConfig = {
 
 	// 页面自动缩放配置
 	pageScaling: {
-		enable: true, // 是否开启自动缩放
+		enable: false, // 是否开启自动缩放
 		targetWidth: 2000, // 目标宽度，低于此宽度时开始缩放
 	},
 
@@ -602,9 +602,9 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 移动端断点：屏幕宽度小于768px
 			mobile: 768,
 			// 平板端断点：屏幕宽度小于1280px
-			tablet: 1280,
+			tablet: 1024,
 			// 桌面端断点：屏幕宽度大于等于1280px
-			desktop: 1280,
+			desktop: 1024,
 		},
 		// 不同设备的布局模式
 		// hidden: 隐藏侧边栏
@@ -684,7 +684,7 @@ export const widgetConfigs = {
 } as const;
 
 export const umamiConfig = {
-	enabled: false, // 是否显示Umami统计
+	enabled: true, // 是否显示Umami统计
 	apiKey:
 		import.meta.env.UMAMI_API_KEY || "api_2DMPKpr2S4iQsRLXEDhcuQUM9pvxh1FQ", // API密钥优先从环境变量读取，否则使用配置文件中的值
 	baseUrl: "https://api.umami.is", // Umami Cloud API地址
