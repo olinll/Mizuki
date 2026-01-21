@@ -1,11 +1,28 @@
 ---
-
+import { execSync } from "node:child_process";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { footerConfig, profileConfig } from "../config";
 import { url } from "../utils/url-utils";
 
 const currentYear = new Date().getFullYear();
+let commitHash = "unknown";
+let buildDate = "unknown";
+
+try {
+	commitHash = execSync("git rev-parse --short=7 HEAD").toString().trim();
+
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
+	const day = date.getDate().toString().padStart(2, "0");
+	const hours = date.getHours().toString().padStart(2, "0");
+	const minutes = date.getMinutes().toString().padStart(2, "0");
+	const seconds = date.getSeconds().toString().padStart(2, "0");
+	buildDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+} catch (e) {
+	console.warn("Failed to get git info", e);
+}
 
 // 页脚自定义内容逻辑
 let customFooterHtml = "";
@@ -33,21 +50,34 @@ if (footerConfig.enable) {
 }
 ---
 
-<!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">-->
+<!--<div class="border-t border-[var(--primary)] mx-16 border-dashed py-8 max-w-[var(--page-width)] flex flex-col items-center justify-center px-6">-->
 <div class="transition border-t border-black/10 dark:border-white/15 my-10 border-dashed mx-32"></div>
-<!--<div class="transition bg-[oklch(92%_0.01_var(&#45;&#45;hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">-->
-<div class="transition border-dashed border-[oklch(85%_0.01_var(--hue))] dark:border-white/15 rounded-2xl mb-12 flex flex-col items-center justify-center px-6">
+<div class="transition bg-[oklch(92%_0.01_var(--hue))] dark:bg-black/40 rounded-2xl py-8 mt-4 mb-8 mx-64 flex flex-col items-center justify-center px-6">
+<!--<div class="transition border-dashed border-[oklch(85%_0.01_var(--hue))] dark:border-white/15 rounded-2xl mb-12 flex flex-col items-center justify-center px-6">-->
     <div class="transition text-50 text-sm text-center">
         {customFooterHtml && (
             <div class="mb-2" set:html={customFooterHtml}></div>
         )}
-        &copy; <span id="copyright-year">{currentYear}</span> {profileConfig.name}. All Rights Reserved. /
+        &copy; <span id="copyright-year">{currentYear}</span> {profileConfig.name}. 
         <a class="transition link text-[var(--primary)] font-medium" href={url('rss/')} onclick={`event.preventDefault(); navigateToPage('${url('rss/')}')`}>RSS</a> /
-		<a class="transition link text-[var(--primary)] font-medium" href={url('atom/')} onclick={`event.preventDefault(); navigateToPage('${url('atom/')}')`}>Atom</a> /
-        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href={url('sitemap-index.xml')}>Sitemap</a><br>
-        Powered by
-        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
-        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/matsuzaka-yuki/mizuki">Mizuki</a>&nbsp; Version <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/matsuzaka-yuki/mizuki">8.0</a><br>
+		<!-- <a class="transition link text-[var(--primary)] font-medium" href={url('atom/')} onclick={`event.preventDefault(); navigateToPage('${url('atom/')}')`}>Atom</a> / -->
+        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href={url('sitemap-index.xml')}>网站地图</a><br>
+		本网站代码 <a class="transition link text-[var(--primary)] font-medium" href="https://github.com/olinl/mizuki" target="_blank">已开源</a>
+		<a class="transition link text-black/30 dark:text-white/30 hover:text-[var(--primary)] text-xs ml-1" target="_blank" href={`https://github.com/olinll/mizuki/commit/${commitHash}`}>({commitHash} @ {buildDate})</a>
+		<br>
+		<a class="transition link text-[var(--primary)] font-medium inline-flex items-center" href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank"><img alt="" src="/favicon/foot-icp.png" class="h-4 mr-1">苏ICP备2022020192号</a>
+        <!-- <div class="flex justify-center items-center gap-2 mt-2">
+            <a class="transition active:scale-95" href="https://beian.mps.gov.cn/#/query/webSearch?code=32021302003009" target="_blank">
+                <img class="h-5" src="https://img.shields.io/badge/%E8%8B%8F%E5%85%AC%E7%BD%91%E5%AE%89%E5%A4%8732021302003009%E5%8F%B7-darkblue?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAoCAYAAACWwljjAAAFQklEQVRYw+3Wa1BUdRjH8SOpMeg4WhZGpDIxiaaTeUFgWrxE4AVRQJGlRRAVIV1JkbgMgQLi5AVBQSVLSp0xlEAUKBEEFZCrCstll8UV2AV2YbmoGCrYv31+R95UL5pmmtamZ+bz6rz5nvOc/5zDcX9jGLs/iTxuyvIlWYkRFeTHA2HVRFtzfhthTG5KuH96/vUgNlC4mMgyw1NJit/aAXLKazYje9xtIMZ/OZz50gW+9hcNkvoLEemEPbnrSP47QYwxQ5Ifv54RqzcXwFFvSyjaOhfavN8F7Y5ZcC/HH9JOB4LNa9Zw5YA76OZV8vIGMdZtSp7cDrtOnOavYiQhTAiPwi1AMtIQaqyngsxpBtw2GAGDKfaQmpUAa6xc4Vfp4UtEdzAMycsT9JQ1Tyctl/2eEkuTlYysF/rCUNxMqDEzgTqzSXBnpgnIHCzgjvEEuD52DLBr3rA1MAaWmNtB582wdtIljZ9G9D+IPU6aTxIPBjHCcXvg3CEh9K2fDLWvjIH6D6fwTIyheuwEqLUyhzLOALq8pkN+bgRw3HY4FBsMzxojZxP9DequLjAlQwVrbpIjhyIY4UYGQ/buhdBqPxlk3Gion2IMDQIz3kJe/ZS34I7uHkmD7VSQVgYDNyIAwsNCgfXGXoOBPjP9DKrOCAogA2etGTmTHAMcFwFZye7wS5QlVHGjoEw4A2qPCUBZ6AzNcQ5Q/YYRdO+YB1U3dsDwypLio4FJ3ECryIzWz6Cm3NgTRHN8HiPF6eHAGSbAdh8feFZkB7krzaHE9h2o85sDsiAbkIsXQMN+e2CtGyF0kzdwXCgU5++D/ouLQFV4OEU/g2Q/iNuIPNaKkQflAWBqexxGjhLDVUcL6IwSQN3SGVChe6FJg9dckCx6D1QBliDZLIAxo7eA8eyv4KE0BJqTrHkZvnL9DJKn+Twmt0NsGGHZy2Dn3kQYfsQ53Hh4/r4RNGz8AIpdzKEuaAF0RC2E57MmQgE3ATjuM/CPiANW7AqSfQJQ5vk362eQKmd3JrmXsoSRocpNIMnbB9zbceDIWUPmuHFQNMkISqa9DpUvNK6YDpW2s8DfwBK48WFQnhMCgzUBoLy0BrRVe5P0NWjPLdKUsJiR1tR1wGp8IeZwMgx/SrgRvjxuAziNcwLvyathLOcJHLflhRDYGRYFrNET2rJ5yvPLoas0tOj/oL8UpC4JHyTSU+6MNCS4gvKoAB5WiKG+MAQSg0WwLXQ/ZJ3xhao0FxB5hYCbUwAEfhEF3Td8QP2dAOQnPwFlxgrolUVq9TPoaX+ZB2nLc2Gk6awj1MU78HZZwJMid2Byb550JQwVO0NfxlJgdz14vWKeRAiK6DlQF28PLZdcoLNcBIO92bb6GTQ8Q/13RURT6tlH2gvXMlITLYD6uI+gp2ozdF0VQXumM6ivCqGvahM8kPiDItkeGo8tB025GFQ3xFrSr06zI3/4yde7oN7m0sWk5eKWDqK5JWJQvAHac9ygq3Adr9gTNNc3QG85rzPfHe5/7wDtPwuhp/Zz6CjyhaZzwi6ivfetHdH/oP77+3PJQOsuRnqkQdCa4wWqyx6gyecpL64GTaEX7ycXUJz4GJp1B4O0X/Hg0Xp1tFV+8Ei1k6c5coHofxBrrzQinbKYo0SVJ+wn6iurGHlY5gY911aDJnMFaHXXiDp9GQyvtKfUA9QFTtBZ7gPdit0tpFd9OpwwFmlA9D/o9yNLDpxIKmI8PMnNSNtviCLVpYTITzrXEGWaq4qos0WgOPdpCenIF+eRrurjB4k0PXopYZG6gMg/D/gNBUxhAbSAmKMAAAAASUVORK5CYII=" alt="苏公网安备32021302003009号" />
+            </a>
+            <a class="transition active:scale-95" href="https://beian.miit.gov.cn/" target="_blank">
+                <img class="h-5" src="https://img.shields.io/badge/%E8%8B%8FICP%E5%A4%872022020192%E5%8F%B7--1-brightgreen?style=flat&logo=data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkRFRDAzMDFGQTRERjExRTdBOERFRDM3QzM0QkNFNDU4IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkRFRDAzMDIwQTRERjExRTdBOERFRDM3QzM0QkNFNDU4Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6REVEMDMwMURBNERGMTFFN0E4REVEMzdDMzRCQ0U0NTgiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6REVEMDMwMUVBNERGMTFFN0E4REVEMzdDMzRCQ0U0NTgiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7byXusAAAK8ElEQVR42uRXeXAUVRr/Xl/TMz2ZyUyOCWESAiEGSLiWhAQEJRARCYiCgKvFobUrWNaulFrK7rKo5a7ueq2iBV5AsARFDtldQZc7SCALgYQjEMhBIPfJTJLunr7e29eTLVdZ9m//2J7qmp6erv6+9zu+73uIEAI/5cHAT3z85AlwPfs/+/4HoR8XcgLf3w99rAx8+jiweCewusaTkr1T1TNlM8X8GWXStHv2GO2tYFkWKFs3bMRVFydCxrBz1rO/WUFcTlkMhcBZUQOWbgGOjwUpMwsQwwKLMOzu9ECF7IGAy4LRowYDd3tcKDAsB1b3DTD6QmD23Awan769n/SqbKS+vNfMSJrgGDSkFpd+N9s6tf9xbAGgiy3ZMSdPrQF3jIzjYsEy9ABWNEBCoP3796LbIHDrDcTRW5g4QFH8NJFWoeEacLpCsGAhJtXfyUhxNWzV+alM7KB6osgJ4oT8T4gZ8Vm6lsZo2KFnpgCuu5Rj7Nj4hdWnis4FS1ehtIxdLMYUYMuG+ZYECP5BdATWza4UdefmD4zmKznozul/YvNmvg+xQrMjFHqB8DQLpSsIFQcWR47vWcU6JQDT6mMdUgcXzDxu4XDQUMIdaN/Od0lLUzqY9O/y40+z987ZJWsmVCoeuNTHgMD/IAEBO4CSCYRnAUkuiBz7arleeWI2K1AmLpz6JZuWUW2eujCNvVZRRHqasgAPSJehcOKbUeGATQG+eobSxjzNJqaXsSkZJXzaHUfU40dWOKdO+/CUzJHtN1yQEBcPOlFB+AEMKHJgL1C4wWqrAyY5jqJk+uT1L1YzwdRSPivvW3xs++9JuCvI0MUyPBPlEdEsiDkQnNDfURANug56D+s2g/TZjNyv+dyC4sbcZSXvNzl9l6+3STPSvJ0WWO1ul8eMEUwYkZkMHLHTpwolsgpINQGlem+KS1feT65WzTX3b3wHkYiT8TL2I3TVGJCdfIy/AyWPOoq9iSepYhrB5cFGqC+ZbWu4S2+oLmL6ZQlXnZ5jyf3xXaMeLPFwzngnwz/8zuHGR5wCdAyL6y0pGOn7ZJzAnkXapZOgHT9apO4sXsUHk2vFufd/QXrDiermV7ZzTio8Bw1OozD2Mp1OlZny6FpIGfopcIkdZn8XiD0tgPwB0GQMrBAD4POOVLe/tdWsqRqPFQB+3vKnWwqXrKv3ZMGJut6HX9t79XOgehAFLvLsnOG/YEDuFdS9W181G64U6uePrcTNnUO13RveYzkLIX5g5SwNjgLBRmb+b2fwOXPeBIQ7CChAUkaDlTAEiKEDoifhKTXB4GWu4IFXkW05W2yNtVNGhmshVHsVQha/2+cWO0DgIGJicdORhjVcf1s3bznd9ZTYMfzEgm1mTXkB7m4PcBR2ZFNOYSei1M/NXrXIDI4oU5EFjs46MLypEkqbopqeRGyF24Dpbqeep6bq6gImout2KSF2ndVMLdKqQnKGD9JMPjViWh4q1qiATIw5BpwuWVy4/EHXwiUrhOHZJ/Dl4wsYMerI6GmLC+XP/ZDLHFt2PTAC2hODwBrqOIZl0h1YIw5TodqIAHYjQD4/sMGhYNVXLIsqnOqFG593QB2ZAa7UABysavmjqhMxaiETw/TMuH2M0NwGILgAT5z5kRXuVnCfIiEa2S7LCFPoY+P62Lw5Gzo8AWhNTAfcXDcGCdJ9wojJVZzRTaDhJGClJ2pl3NcD5t6Pf2edPzzfdokjc/R3Sv7crTdS82HL6dDqA9WhRSBQTg0C8V5n26JJwTc4s71lgnHu6kxCzYPMUDDaE2wbUX8R20+S91yko6vuQnAIe6HZGDO6ZMsaS3JcNDuuWwIn0lVSiHgKWWvDROv03hfw+dPzGXpLmHDn5+Gfv/Tk10KG8LcjbWv3netaDTxVs2ZAik+of3JW1qN9rvgmTv5221aoqc0UJ/+slBmSesXC/y4uZODbofeGw9dOwe6MFcO9mpofH2p2G5er11h9YQ8O3HGFdF4PsJ1fFpJrF6eQXpqLx3tDm/LwixfynyjeISfn7CxrX9/Q2p8b5ZPCnj3Yc+S5aUnLJL+3sYNwwCGeU+2YuC/M4e7OSLSw0MDIsrOg10KCxI2bRy808TtdmtWdu3xd3FfPZ/JnD60CfGigwbCgWPFph7XC2dsqUwv/up/P9u2vE4vL6lsfsRSDtzn380zHrDFJ63KHxL3hdVl6v0FrDnUJ55m9+DE562IBx/BuYDCxubNrk50xYghoPd3ZbpZPXOiDS+UKchQmrvzVE8vyVmc0npIdPc0kEshQ2/ypVqOY5ixVYvLOdOJv2rvkHJC7owgOixMujAt4i9P9zOdZg3ytnX2YWtAEizrBDsPxg1MqHamBSs7pp/X8fJ6OmFfA5oFmjW0ftnfEo5N7lmb7B7/5XDB30RtN7OZfRyYWk+R8lUs0FWyYghHS4qFfBdA1mr0JyW6mIT1ROpwpMXuGBVz7h4isFgi1AGcicNKq5qX2iNg9gfoUyacPAunsBrX0yELexcfq5QdXWNcvT2AlRIsQipZfxp903b3ipZzG9Mldf5cyaVcjWV39MElRjNFtYd3p57Ca4UJdJKJd8cUwV9K9Uk2/jBWmpwOGyy0wKZaBeE1xYJoIlTptkrbLBoYDpFwuA3nTBy/L24rXCqPSq6X5S1+SP/7DVoY3WIa3k6CPUqy44eMOivMeW9AWl9J7QhwMPb5hYIg+KO+SITNGgEmJIlRfa6PNSYN0SwepqRbS6y9AAolARIk8hEeknuMSE2rANH88D/C9IVu5rTYhxsW6EdqEa2O5yYXbrEPfLCEeiihlA1Ek9OrKQlN572hCwfyn5sfFn1Rry6GHkyA31Aw8nQs8lK1U0MEPIrjdsaD3dQMbbk/uOXn0L2zmyLqYqfm7sEH9SdgfD0CR0yW0iGC+5+N330JamOV8SWf5WTO/1jev22FWVUxFdoWz+z/VBKHaQIJgsCMm7BCSMvdxMd4zutnZwuiaYqoKIWkZEqeJyUS1spQrFTPM8tOLnVNn7JGeWv0EtZYVXc2tE5h8+Bi1Aw9GdzMwVhc1vgcMTb4D1dZOMipLZ+iVx5cw1C6I0mELMzoLGANDCRFFnXFI3QixN2nRsocuP+7tTbDCGm/TJtxVuNF5z7z1zvE5Z4mq3nYoRPKRkujEaoRaATkx8P4ACr/z6meR0pKHXPcU/RFZukM/V/o49N1MsoPa3o0Gt9+FB067U9v2jSZGr9lAco1QMGuDXl+fZ1y9epdv7ZtjGLfURSzrv4dS0S9ELxy+IG2ntJtZFo97QklY1gT5q90vOxYveB29/NZY7h+HHrCaaoqslmtjQQknE03n7RnTnhVoKdZQvL+F9Q2qQGPHf8l7EiP9xR9+YLR3J0XnwqqKIum+wi0DKNySACOwP5qZCYP0mGUrHiS843UsSTpbVPQauONCTGr2P/X2tklCTsFHENE1zDv7QbsZoroYzvI8bR2CB+uYlwrv306brOBsbFpnHTz4uJST97Yja9R2W8jgEG4zlpP/bEvs6mfDhESh13n39JWaJIGARXC0RkALh4ap3xxabrjpk7xD9z6z9m7X5Nyy8JZNf+7btf15ohJgB8W1OkZmP8P6PLpz+r2vMUNHreMEkKO13W4ut9mH3n5rhnF0yqFqBEv0g+aLA2vI0EpXft4m4kmoc9993yfusTllkV46c+XdtZ44Yxv5oUMrxMkz37aSh2GDtm5LVuw9hkyi1vvfG2D0f787/pcAAwAwtTs7N8++1QAAAABJRU5ErkJggg==" alt="苏ICP备2022020192号-1" />
+            </a>
+        </div> -->
+
+		<br>由
+        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> 和
+        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/matsuzaka-yuki/mizuki">Mizuki 8.0</a>&nbsp; 强力驱动.
         
 
     </div>
