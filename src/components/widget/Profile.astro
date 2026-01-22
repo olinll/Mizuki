@@ -6,12 +6,48 @@ import ImageWrapper from "../misc/ImageWrapper.astro";
 import TypewriterText from "../TypewriterText.astro";
 import I18nKey from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
+import { getSortedPosts } from "@utils/content-utils";
 
 // 解析 umami
 const umamiEnabled = umamiConfig.enabled || false;
 const umamiWebsiteId = umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1] || "";
 const umamiApiKey = umamiConfig.apiKey || "";
 const umamiBaseUrl = umamiConfig.baseUrl || "";
+
+const posts = await getSortedPosts();
+//文章总数
+const totalPosts = posts.length;
+// 计算总字数
+let totalWords = 0;
+for (const post of posts) {
+	if (post.body) {
+		let text = post.body;
+
+		// 移除代码块
+		text = text.replace(/```[\s\S]*?```/g, "");
+		// 移除 ` 包裹的行内代码
+		text = text.replace(/`[^`]+`/g, "");
+
+		// 使用与 remark-content.mjs 完全一致的 CJK 正则
+		const cjkPattern =
+			/[\u4e00-\u9fa5\u3040-\u309f\u30a0-\u30ff\uac00-\ud7af\u3000-\u303f\uff00-\uffef]/g;
+
+		const cjkMatches = text.match(cjkPattern);
+		const cjkCount = cjkMatches ? cjkMatches.length : 0;
+
+		// 计算非 CJK 单词数
+		const nonCjkText = text.replace(cjkPattern, " ");
+
+		// 按空白字符分割，计算单词数量
+		const nonCjkWords = nonCjkText
+			.split(/\s+/)
+			.filter((word) => word.trim().length > 0);
+
+		totalWords += cjkCount + nonCjkWords.length;
+	}
+}
+
+
 ---
 
 <div class="card-base p-3">
@@ -60,10 +96,49 @@ const umamiBaseUrl = umamiConfig.baseUrl || "";
         
         {umamiEnabled && (
             <hr class="my-2 border-t border-dashed border-gray-300 dark:border-gray-700" />
-            <div class="text-sm text-gray-500 mt-2 text-center">
+          <!-- 使用自定义的统计文案 -->
+            <!-- 全站文章与字数统计 -->
+            <div class="grid grid-cols-2 mt-3 pt-3 border-t border-neutral-300 dark:border-neutral-700">
+                <div class="text-center">
+                    <div class="text-xs text-neutral-500 mb-1 flex items-center justify-center gap-1">
+                        <Icon name="material-symbols:article-outline" class="text-base"></Icon>
+                        <span class="text-xs">文章数</span>
+                    </div>
+                    <div class="font-bold text-lg text-neutral-700 dark:text-neutral-300">{totalPosts}</div>
+                </div>
+                <div class="text-center border-l border-neutral-300 dark:border-neutral-700">
+                    <div class="text-xs text-neutral-500 mb-1 flex items-center justify-center gap-1">
+                        <Icon name="material-symbols:format-list-numbered" class="text-base"></Icon>
+                        <span class="text-xs">总字数</span>
+                    </div>
+                    <div class="font-bold text-lg text-neutral-700 dark:text-neutral-300">
+                        {(totalWords / 10000).toFixed(1)}w
+                    </div>
+                </div>
+            </div>
+
+            <!-- 全站访问量统计 -->
+            <div class="grid grid-cols-2 mt-3 pt-3 border-t border-neutral-300 dark:border-neutral-700">
+                <div class="text-center">
+                    <div class="text-xs text-neutral-500 mb-1 flex items-center justify-center gap-1">
+                        <Icon name="material-symbols:visibility-outline" class="text-base"></Icon>
+                        <span class="text-xs">访问量</span>
+                    </div>
+                    <div id="site-views" class="font-bold text-lg text-neutral-700 dark:text-neutral-300">0</div>
+                </div>
+                <div class="text-center border-l border-neutral-300 dark:border-neutral-700">
+                    <div class="text-xs text-neutral-500 mb-1 flex items-center justify-center gap-1">
+                        <Icon name="material-symbols:person" class="text-base"></Icon>
+                        <span class="text-xs">访客数</span>
+                    </div>
+                    <div id="site-visitors" class="font-bold text-lg text-neutral-700 dark:text-neutral-300">0</div>
+                </div>
+            </div>
+            <!-- 原mizuki统计 -->
+            <!--<div class="text-sm text-gray-500 mt-2 text-center">
                 <Icon name="fa6-solid:eye" class="inline-block mr-1 text-gray-400 text-sm align-middle" />
                 <span id="site-stats-display">{i18n(I18nKey.profileStatsLoading)}</span>
-            </div>
+           </div>-->
         )}
     </div>
 </div>
@@ -78,6 +153,23 @@ const umamiBaseUrl = umamiConfig.baseUrl || "";
         profileStatsVisits: i18n(I18nKey.profileStatsVisits),
         profileStatsUnavailable: i18n(I18nKey.profileStatsUnavailable)
     }}>
+
+          // 数字动画函数
+    function animateValue(obj, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            obj.innerHTML = Math.floor(progress * (end - start) + start);
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                obj.innerHTML = end;
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
         // 客户端统计文案生成函数
         function generateStatsText(pageViews, visits) {
             return `${profileStatsPageViews} ${pageViews} · ${profileStatsVisits} ${visits}`;
@@ -97,12 +189,23 @@ const umamiBaseUrl = umamiConfig.baseUrl || "";
                 const pageViews = stats.pageviews || 0;
                 const visits = stats.visits || 0;
                 
+                // 动画更新访问量和访客数，如果当前值已经是目标值，就不执行动画
+                const currentViews = parseInt(document.getElementById('site-views').innerHTML);
+                const currentVisitors = parseInt(document.getElementById('site-visitors').innerHTML);
+
+                if (currentViews !== pageViews) {
+                    animateValue(document.getElementById('site-views'), currentViews, pageViews, 1000);
+                }
+                if (currentVisitors !== visits) {
+                    animateValue(document.getElementById('site-visitors'), currentVisitors, visits, 1000);
+                }
+                
                 const displayElement = document.getElementById('site-stats-display');
                 if (displayElement) {
                     displayElement.textContent = generateStatsText(pageViews, visits);
                 }
             } catch (error) {
-                console.error('Error fetching site stats:', error);
+                console.error('获取全站统计失败:', error);
                 const displayElement = document.getElementById('site-stats-display');
                 if (displayElement) {
                     displayElement.textContent = profileStatsUnavailable;
