@@ -188,11 +188,11 @@ export const siteConfig: SiteConfig = {
 	generateOgImages: true, // 启用生成OpenGraph图片功能,注意开启后要渲染很长时间，不建议本地调试的时候开启
 	favicon: [
 		// 留空以使用默认 favicon
-		// {
-		//   src: '/favicon/icon.png',    // 图标文件路径
-		//   theme: 'light',              // 可选，指定主题 'light' | 'dark'
-		//   sizes: '32x32',              // 可选，图标大小
-		// }
+		{
+			src: "https://q2.qlogo.cn/headimg_dl?dst_uin=9892214&spec=0", // 图标文件路径
+			// theme: "light", // 可选，指定主题 'light' | 'dark'
+			// sizes: "32x32", // 可选，图标大小
+		},
 	],
 
 	// 字体配置
@@ -354,7 +354,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
+	avatar: "https://q2.qlogo.cn/headimg_dl?dst_uin=9892214&spec=0", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
 	name: "顾拾柒",
 	bio: "The world is big, you have to go and see",
 	typewriter: {
