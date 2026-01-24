@@ -695,6 +695,6 @@ export const umamiConfig = {
 		import.meta.env.UMAMI_API_KEY || "Olin@2026", // API密钥优先从环境变量读取，否则使用配置文件中的值
 	baseUrl: "https://umami.olinl.com", // Umami Cloud API地址 官方地址:https://api.umami.is
 	scripts: `
-<script defer src="https://umami.olinl.com/script.js" data-website-id="ebd2e9af-46be-4279-84dd-083f3a988b3b" id="umami-script" data-swup-persist></script>
+	<script defer src="https://umami.olinl.com/script.js"  data-website-id="ebd2e9af-46be-4279-84dd-083f3a988b3b" data-swup-ignore-script></script>
   `.trim(), // 上面填你要插入的Script,不用再去Layout中插入
 } as const;
