@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "8bf5bc89f663820f",
+        "id": "90f4cf7dd2f92636",
         "type": "tabs",
         "children": [
           {
-            "id": "66866952e1452f2a",
+            "id": "7e62fcdd533d2b01",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "mizuki-changelog.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "mizuki-changelog"
+              "title": "新标签页"
             }
           }
         ]
@@ -156,13 +152,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "mizuki-changelog.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "mizuki-changelog 的大纲"
+              "title": "大纲"
             }
           }
         ],
@@ -183,11 +178,11 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "66866952e1452f2a",
+  "active": "7e62fcdd533d2b01",
   "lastOpenFiles": [
+    "mizuki-changelog.md",
     "nginx-subfilter-html.md",
     "mizuki-started.md",
-    "mizuki-changelog.md",
     "eo-cdn-use.md",
     "basicauth-nopass.md",
     "alpine-install.md",

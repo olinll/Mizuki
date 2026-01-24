@@ -251,6 +251,12 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Home,
 		LinkPreset.Archive,
 		LinkPreset.About,
+		{
+			name: "监控",
+			url: "https://umami.olinl.com/share/kLA1YiPiJbY2Lqi6",
+			external: true,
+			icon: "material-symbols:monitor",
+		},
 		// 支持自定义导航栏链接，支持多级菜单
 		// {
 		// 	name: "Links",
@@ -691,8 +697,7 @@ export const widgetConfigs = {
 
 export const umamiConfig = {
 	enabled: true, // 是否显示Umami统计
-	apiKey:
-		import.meta.env.UMAMI_API_KEY, // API密钥优先从环境变量读取，否则使用配置文件中的值
+	apiKey: import.meta.env.UMAMI_API_KEY, // API密钥优先从环境变量读取，否则使用配置文件中的值
 	baseUrl: "https://umami.olinl.com", // Umami Cloud API地址 官方地址:https://api.umami.is
 	scripts: `
 	<script defer src="https://umami.olinl.com/script.js"  data-website-id="ebd2e9af-46be-4279-84dd-083f3a988b3b" data-swup-ignore-script></script>
