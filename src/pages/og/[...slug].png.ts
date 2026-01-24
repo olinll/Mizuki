@@ -107,15 +107,62 @@ export async function GET({
 		await fetchNotoSansSCFonts();
 
 	// Avatar + icon: still read from disk (small assets)
-	const avatarBuffer = fs.readFileSync(`./src/${profileConfig.avatar}`);
-	const avatarBase64 = `data:image/png;base64,${avatarBuffer.toString("base64")}`;
-
-	let iconPath = "./public/favicon/favicon.ico";
-	if (siteConfig.favicon.length > 0) {
-		iconPath = `./public${siteConfig.favicon[0].src}`;
+	let avatarBase64: string;
+	if (
+		profileConfig.avatar &&
+		(profileConfig.avatar.startsWith("http://") ||
+			profileConfig.avatar.startsWith("https://"))
+	) {
+		try {
+			const response = await fetch(profileConfig.avatar);
+			const arrayBuffer = await response.arrayBuffer();
+			const buffer = Buffer.from(arrayBuffer);
+			avatarBase64 = `data:image/png;base64,${buffer.toString("base64")}`;
+		} catch (e) {
+			console.error("Failed to fetch avatar:", e);
+			avatarBase64 = "";
+		}
+	} else {
+		const avatarPath = profileConfig.avatar
+			? `./src/${profileConfig.avatar}`
+			: "./src/assets/images/avatar.webp"; // Fallback to default if not set
+		try {
+			const avatarBuffer = fs.readFileSync(avatarPath);
+			avatarBase64 = `data:image/png;base64,${avatarBuffer.toString("base64")}`;
+		} catch (e) {
+			console.error(`Failed to load avatar from ${avatarPath}:`, e);
+			avatarBase64 = "";
+		}
 	}
-	const iconBuffer = fs.readFileSync(iconPath);
-	const iconBase64 = `data:image/png;base64,${iconBuffer.toString("base64")}`;
+
+	let iconBase64: string;
+	if (
+		siteConfig.favicon.length > 0 &&
+		(siteConfig.favicon[0].src.startsWith("http://") ||
+			siteConfig.favicon[0].src.startsWith("https://"))
+	) {
+		try {
+			const response = await fetch(siteConfig.favicon[0].src);
+			const arrayBuffer = await response.arrayBuffer();
+			const buffer = Buffer.from(arrayBuffer);
+			iconBase64 = `data:image/png;base64,${buffer.toString("base64")}`;
+		} catch (e) {
+			console.error("Failed to fetch favicon:", e);
+			iconBase64 = "";
+		}
+	} else {
+		let iconPath = "./public/favicon/favicon.ico";
+		if (siteConfig.favicon.length > 0) {
+			iconPath = `./public${siteConfig.favicon[0].src}`;
+		}
+		try {
+			const iconBuffer = fs.readFileSync(iconPath);
+			iconBase64 = `data:image/png;base64,${iconBuffer.toString("base64")}`;
+		} catch (e) {
+			console.error(`Failed to load favicon from ${iconPath}:`, e);
+			iconBase64 = "";
+		}
+	}
 
 	const hue = siteConfig.themeColor.hue;
 	const primaryColor = `hsl(${hue}, 90%, 65%)`;
