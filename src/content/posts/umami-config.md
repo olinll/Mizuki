@@ -23,7 +23,7 @@ Umami官方API: [Umami - API](https://umami.is/docs/api)
 
 # 正文
 
-这里需要注意一点，使用cloud，也就是官方的api 只需要申请一个`API KEY` 就可以调用api了，如果使用自建服务器，需要先获取token，再进行调用。
+这里需要注意一点，使用官方的api 只需要申请一个`API KEY` 就可以调用api了，如果使用自建服务器，需要先获取token，再进行调用。
 
 ## 认证
 
@@ -62,11 +62,10 @@ Authorization: Bearer eyTMjU2IiwiY...4Q0JDLUhWxnIjoiUE_A
 每次需要权限的 API 调用都必须有授权令牌。
 
 
-所以在使用自建的umami时，需要先进行登录，然后修改所有的请求头，添加Authorization 字段，值为Bearer <token>，
 
 ## 实现认证方式
 
-这里贴出本站的一个js脚本，实现了登录并获取token和获取统计数据的功能。
+这里贴出适用于Mizuki的一个js脚本，实现了登录并获取token和获取统计数据的功能。
 
 ```js
 ((global) => {
@@ -331,12 +330,52 @@ Authorization: Bearer eyTMjU2IiwiY...4Q0JDLUhWxnIjoiUE_A
 })(window);
 
 ```
-
-:::note
-注意：这里为了最小的改动，使用`apiKey`进行存储密码，在请求的时候会漏信息，所以不建议使用。
+ :::important
+使用这种方式会在浏览器中暴露请求的用户名和密码，建议创建一个单独的用户，只用于获取统计数据。
 :::
 
+## 邪修玩法
 
-:::tip
-注意：这里的代码仅适用于自建的umami服务器，如果你使用的是umami cloud，直接使用api key 即可。
-:::
+我们可以采用share key 认证方式，这样就不会暴露用户名和密码了。
+
+原理：在umami网站中，我们可以将统计数据分享出去，使用户可以免登录查看统计数据。
+
+分享页面请求了一下 `/api/share/{shareId}` 接口，返回了一个token，并且后面所有对api的请求都会带一个header `x-umami-share-token`，并且值和之前返回的token一致。
+
+我们可以直接将上面的认证方法替换为`x-umami-share-token`，不需要使用用户名密码了。
+
+```js
+/**
+ * 获取分享 Token 数据
+ * @param {string} baseUrl - Umami 实例地址
+ * @param {string} shareId - 分享 ID
+ */
+async function fetchShareData(baseUrl, shareId) {
+	const cached = localStorage.getItem(cacheShareKey);
+	if (cached) {
+		try {
+			const parsed = JSON.parse(cached);
+			if (Date.now() - parsed.timestamp < cacheTTL) {
+				return parsed.value;
+			}
+		} catch {
+			localStorage.removeItem(cacheShareKey);
+		}
+	}
+	// 请求分享 API
+	const res = await fetch(`${baseUrl}/api/share/${shareId}`);
+	if (!res.ok) {
+		throw new Error("获取 Umami 分享信息失败");
+	}
+	const data = await res.json();
+	
+	// 写入 LocalStorage 缓存
+	localStorage.setItem(
+		cacheShareKey,
+		JSON.stringify({ timestamp: Date.now(), value: data }),
+	);
+	return data;
+}
+
+```
+
