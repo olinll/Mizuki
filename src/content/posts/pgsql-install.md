@@ -8,7 +8,7 @@ tags:
 category: 教程
 draft: false
 pinned: false
-image: ./img/defalut-cover.png
+# image: ./img/defalut-cover.png
 ---
 # 安装
 ## Ubuntu 二进制

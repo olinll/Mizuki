@@ -8,7 +8,7 @@ tags:
 category: 碎碎念
 draft: false
 date: 2026-01-20
-image: ./img/defalut-cover.png
+# image: ./img/defalut-cover.png
 ---
 
 Mizuki官方文档：[Mizuki Next Theme Doc](https://docs.mizuki.mysqil.com/)

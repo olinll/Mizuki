@@ -8,7 +8,7 @@ tags:
 category: 教程
 draft: false
 pinned: false
-image: ./img/defalut-cover.png
+# image: ./img/defalut-cover.png
 ---
 # 正式开始
 对于EdgeOne可加速的站点主要有2种，大部分互联网上可访问的站点都是这2种。  

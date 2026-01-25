@@ -8,7 +8,7 @@ tags:
 category: 教程
 draft: false
 pinned: false
-image: ./img/defalut-cover.png
+# image: ./img/defalut-cover.png
 ---
 > [!NOTE]
 > 因为Docker镜像拉取较慢，所以我们一般使用镜像站进行拉取，或者自建Docker仓库

@@ -8,7 +8,7 @@ tags:
 category: 碎碎念
 draft: false
 pinned: false
-image: ./img/defalut-cover.png
+# image: ./img/defalut-cover.png
 ---
 
 本篇文章长期更新，且实时记录本站所有魔改框架记录。不包含文章页面的更新

@@ -8,7 +8,7 @@ tags:
 category: 教程
 draft: false
 pinned: false
-image: ./img/defalut-cover.png
+# image: ./img/defalut-cover.png
 ---
 # 前言
 红帽官方宣布CentOS 8于2021年年底结束维护。CentOS 已死！＂免费＂的 RHEL 没了…

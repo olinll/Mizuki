@@ -7,7 +7,7 @@ tags: []
 category: ""
 draft: false
 pinned: false
-image: ./img/defalut-cover.png
+# image: ./img/defalut-cover.png
 ---
 # 博客封面设置
 下面这种状态为最佳

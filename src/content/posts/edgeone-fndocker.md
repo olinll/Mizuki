@@ -8,7 +8,7 @@ tags:
 category: 教程
 draft: false
 pinned: false
-image: ./img/defalut-cover.png
+# image: ./img/defalut-cover.png
 ---
 # 写在前面
 其原因是看到一个仓库
