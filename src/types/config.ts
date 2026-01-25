@@ -457,3 +457,8 @@ export type PioConfig = {
 export type ShareConfig = {
 	enable: boolean; // 是否启用分享功能
 };
+
+export type GitHubEditConfig = {
+	enable: boolean;
+	baseUrl: string;
+};

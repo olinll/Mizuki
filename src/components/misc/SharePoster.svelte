@@ -399,14 +399,22 @@ function portal(node: HTMLElement) {
 	};
 }
 </script>
-
 <button 
+  class="group flex items-center gap-1 px-3 py-1.5 rounded bg-[var(--primary)] hover:bg-[oklch(0.65_0.16_var(--hue))] active:bg-[oklch(0.60_0.18_var(--hue))] text-white dark:text-black/80 text-xs font-medium transition-all active:scale-95"
+  on:click={generatePoster}
+  aria-label="Generate Share Poster"
+>
+<Icon icon="material-symbols:share" class="text-[0.75rem] text-white dark:text-black/70" />
+  <span>{i18n(I18nKey.shareArticle)}</span>
+</button>
+<!-- mizuki原分享按钮 -->
+<!-- <button 
   class="btn-regular px-6 py-3 rounded-lg inline-flex items-center gap-2"
   on:click={generatePoster}
   aria-label="Generate Share Poster"
 >
   <span>{i18n(I18nKey.shareArticle)}</span>
-</button>
+</button> -->
 
 {#if showModal}
   <div use:portal class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 transition-opacity" on:click={closeModal}>
