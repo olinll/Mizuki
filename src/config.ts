@@ -478,13 +478,13 @@ export const shareConfig: ShareConfig = {
 
 export const announcementConfig: AnnouncementConfig = {
 	title: "公告", // 公告标题，填空使用i18n字符串Key.announcement
-	content: "欢迎来到我的博客！", // 公告内容
+	content: "这是一个混乱的博客，请前往访问主站查看优质内容！", // 公告内容
 	closable: true, // 允许用户关闭公告
 	link: {
 		enable: true, // 启用链接
-		text: "Learn More", // 链接文本
-		url: "/about/", // 链接 URL
-		external: false, // 内部链接
+		text: "点击前往", // 链接文本
+		url: "https://www.olinl.com", // 链接 URL
+		external: true, // 内部链接
 	},
 };
 
